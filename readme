@@ -1,5 +1,1 @@
-crawlerProxy.js testRightProxy.js getXichidiali.js是爬取西祠代理的程序
-目前：4320次
-1）先跑crawlerProxy.js
-2) 再跑 totalControlOne.js totalControlTwo.js //刷小米、华为、360、豌豆荚浏览量
-3)数据保存在本地的postgresql数据库中
+...
