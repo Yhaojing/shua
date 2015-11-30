@@ -15,7 +15,7 @@ for(var i =1; i<60; i++){
     minutes.push(i);
 }//每小时4次
 rule.minute = minutes;
-rule.second = [ 1, 10, 20 , 30, 40 ,50];
+rule.second = [ 10, 30, 40, 55 ];
 var count = 0;
 
 var schedule = schedule.scheduleJob(rule, function(){
@@ -45,18 +45,10 @@ var schedule = schedule.scheduleJob(rule, function(){
             if(err){   console.log('get weather api error:'+stderr);
             } else {
                 console.log('360:',stdout);//stdout标准输出
+
             }
         })
 
-        exec( '/usr/local/bin/phantomjs /Users/haojing/node/getProxy/360/guahao360.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {
-            if (err) {
-                console.log('get weather api error:' + stderr);
-            } else {
-                console.log('360:',stdout);//stdout标准输出
-
-            }
-
-        })
 
         //小米  搜索挂号 妙医
         exec( '/usr/local/bin/phantomjs ./xiaomi/miPhone.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {

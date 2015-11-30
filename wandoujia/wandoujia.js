@@ -41,25 +41,55 @@ function searchForwandou (address, app, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var searchInput = document.getElementById('j-search-input');
-                    return searchInput.getBoundingClientRect();
+                    if(searchInput !== undefined) {
+                        return searchInput.getBoundingClientRect();
+                    } else {
+                        return 0;
+                    }
                 });
-                page.sendEvent("click", elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
-                page.sendEvent("keypress", app);
-            },1500)
+
+                if(elemRect === 0) {
+                    console.log('exit from wandoujia miaoyi 1');
+                    phantom.exit();
+                } else {
+                    page.sendEvent("click", elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
+                    page.sendEvent("keypress", app);
+                }
+            },1500);
 
             window.setTimeout(function () {
                 var elemRect2 = page.evaluate(function () {
-                    return document.querySelector('input[value="搜索"]').getBoundingClientRect();
-                })
-                page.sendEvent('click', elemRect2.left + elemRect2.width / 2, elemRect2.top + elemRect2.height / 2);
+                    var searchInput = document.querySelector('input[value="搜索"]');
+                    if(searchInput !== undefined) {
+                        return searchInput.getBoundingClientRect();
+                    } else {
+                        return 0;
+                    }
+                });
+
+                if(elemRect2 === 0) {
+                    console.log('exit from wandoujia miaoyi 2');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect2.left + elemRect2.width / 2, elemRect2.top + elemRect2.height / 2);
+                }
             }, 2500)
 
             window.setTimeout(function () {
                 var elemRect2 = page.evaluate(function (s) {
-                    document.querySelector('a[title="妙医挂号"]').target = null;
-                    return document.querySelector('a[title="妙医挂号"]').getBoundingClientRect();
-                }, app)
-                page.sendEvent('click', elemRect2.left + elemRect2.width / 2, elemRect2.top + elemRect2.height / 2);
+                    if( document.querySelector('a[title="妙医挂号"]') !== undefined) {
+                        document.querySelector('a[title="妙医挂号"]').target = null;
+                        return document.querySelector('a[title="妙医挂号"]').getBoundingClientRect();
+                    } else {
+                        return 0;
+                    }
+                }, app);
+
+                if(elemRect2 === 0) {
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect2.left + elemRect2.width / 2, elemRect2.top + elemRect2.height / 2);
+                }
             }, 4500)
 
             window.setTimeout(function () {

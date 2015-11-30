@@ -12,7 +12,7 @@ var request = require('request');
 var checkProxy = require('./testRightProxy');
 
 var rule = new schedule.RecurrenceRule();
-rule.minute = [1, 26, 47];
+rule.minute = [14, 30, 44];
 
 var schedule = schedule.scheduleJob(rule, function(){
     console.log('爬取代理...');

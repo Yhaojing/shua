@@ -8,13 +8,13 @@ var exec = require('child_process').exec;
 var RightProxy = require('./postgreDb/db.js').Rightproxy;
 
 var rule = new schedule.RecurrenceRule();
-rule.hour =[new schedule.Range(11, 14) ];
+rule.hour =[new schedule.Range(11, 14),new schedule.Range(17, 24)];
 var minutes = [];
 for(var i =1; i<60; i++){
     minutes.push(i);
 }//每小时4次
 rule.minute = minutes;
-rule.second = [1, 7, 14, 21, 28, 35, 42, 49, 56 ];
+rule.second = [ 14, 28, 42,  56 ];
 var count = 0;
 
 var schedule = schedule.scheduleJob(rule, function(){

@@ -36,7 +36,7 @@ page.onConsoleMessage = function (msg) {
 
 address = 'http://a.vmall.com/search';
 page.viewportSize = {width: 1280, height: 800};
-phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
+//phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
 
 page.open(address, function (status) {
     if (status !== 'success') {
@@ -45,30 +45,58 @@ page.open(address, function (status) {
         console.log('华为 loading success');
         window.setTimeout(function () {
             var rect1 = page.evaluate(function () {
-                return document.getElementsByClassName('search-txt')[0].getBoundingClientRect();
-            });
+                var search = document.getElementsByClassName('search-txt')[0];
+                if(search !==undefined) {
+                    return (search.getBoundingClientRect());
 
-            page.sendEvent("click", rect1.left + rect1.width/2 , rect1.top + rect1 .height/2);
-            page.sendEvent("keypress", '挂号');
-            //page.render('./2.png');
+                } else {
+                    return 0;
+                }
+            });
+            if(rect1 === 0 ) {
+                console.log('huawei Exit 1');
+                phantom.exit();
+            } else {
+                page.sendEvent("click", rect1.left + rect1.width/2 , rect1.top + rect1 .height/2);
+                page.sendEvent("keypress", '挂号');
+            }
         }, 2500);
 
         window.setTimeout(function () {
             var rect2 = page.evaluate(function () {
-                return document.getElementById("searchBtn").getBoundingClientRect();
+                if(document.getElementById("searchBtn") !==undefined) {
+                    return document.getElementById("searchBtn").getBoundingClientRect();
+                } else {
+                    return 0;
+                }
             });
-            page.sendEvent('click', rect2.left + rect2.width/2 , rect2.top + rect2 .height/2);
+
+            if(rect2 === 0) {
+                console.log('huawei Exit 2');
+                phantom.exit();
+            } else {
+                page.sendEvent('click', rect2.left + rect2.width/2 , rect2.top + rect2 .height/2);
+            }
         }, 4500);
-
         phantom.injectJs('jquery.min.js');
-
         window.setTimeout(function () {
             var rect3 = page.evaluate(function () {
-               var location = $('h3:contains("妙医挂号")')[0].getBoundingClientRect();
-                window.scrollTo(location.left, location.top);
-                return $('h3:contains("妙医挂号")')[0].getBoundingClientRect();
+                var location = $('h3:contains("妙医挂号")')[0].getBoundingClientRect();
+                if(location === undefined) {
+                    return 0;
+                } else {
+                    window.scrollTo(location.left, location.top);
+                    return $('h3:contains("妙医挂号")')[0].getBoundingClientRect();
+                }
             });
-            page.sendEvent('click', rect3.left + rect3.width/2 , rect3.top + rect3 .height/2);
+
+            if(rect3 === 0) {
+                console.log('huawei Exit 3');
+                phantom.exit();
+            } else {
+                page.sendEvent('click', rect3.left + rect3.width/2 , rect3.top + rect3 .height/2);
+
+            }
         }, 6500);
 
         window.setTimeout(function () {

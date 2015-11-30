@@ -43,44 +43,86 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search =  document.getElementsByClassName('search-flex9')[1];
-                    return (search.getBoundingClientRect());
-                })
-                page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
-                page.sendEvent('keypress', appName);
-            }, 3000);
+                    if(search !== undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
+                });
+
+                if(elemRect === 0) {
+                    console.log('mi exit 1');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
+                    page.sendEvent('keypress', appName);
+                }
+
+            }, 4000);
 
             window.setTimeout(function () {
                 var rectButton = page.evaluate(function () {
-                    return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
+                    if(document.getElementsByClassName('search-flex2')[1] !==undefined) {
+                        return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
-            }, 4500);
+                if(rectButton === 0) {
+                    console.log('mi exit 2');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+                }
+            }, 6500);
 
             window.setTimeout(function () {
                 var rect =page.evaluate(function () {
                     var r = document.getElementById('getSearchApp').getBoundingClientRect();
                     window.scrollTo(r.left,r.top);//滚动到妙医挂号那个位置
-                    return document.getElementById('getSearchApp').getBoundingClientRect();
+                    if(r !==undefined) {
+                        return document.getElementById('getSearchApp').getBoundingClientRect();
+                    } else {
+                        return 0;
+                    }
                 });
 
-                page.sendEvent('click', rect.left+ rect.width/2, rect.top+rect.height/2);
+                if(rect === 0) {
+                    console.log('mi exit 3');
+                    phantom.exit();
 
-            }, 6500)
+                } else {
+                    page.sendEvent('click', rect.left+ rect.width/2, rect.top+rect.height/2);
+
+                }
+            }, 8500)
 
             window.setTimeout(function () {
                 var rectButton = page.evaluate(function () {
                     var rect1 = document.querySelector('img[alt="妙医挂号"]').getBoundingClientRect();
                     //window.scrollTo(rect1.left,rect1.top);//滚动到妙医挂号那个位置
-                    return document.querySelector('img[alt="妙医挂号"]').getBoundingClientRect();
+                    if(rect1 !==undefined) {
+                        return document.querySelector('img[alt="妙医挂号"]').getBoundingClientRect();
+
+                    } else {
+                        return 0;
+                    }
                 });
-                page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+                if(rectButton === 0) {
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+
+                }
             }, 10000);
 
             window.setTimeout(function () {
                 //page.render("./images/"+ new Date().getDay()+','+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()+"miaoyi.png");
                 console.log('小米加载一次');
                 cb(null, status);
-            }, 15000)
+            }, 20000)
         }
     })
 }

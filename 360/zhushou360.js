@@ -29,7 +29,7 @@ page.onConsoleMessage = function (msg) {
 };
 t = Date.now();
 // 设置代理
-//phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
+phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
 address = "http://m.app.haosou.com/";
 
 page.viewportSize = {width: 1280, height: 800};
@@ -46,25 +46,59 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search = document.getElementById('q');
-                    return (search.getBoundingClientRect());
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
-                page.sendEvent('keypress', appName);
+
+                if(elemRect === 0) {
+                    console.log('360M Exit 1');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
+                    page.sendEvent('keypress', appName);
+                }
             }, 2500);
 
             window.setTimeout(function () {
                 var elemRectButton = page.evaluate(function () {
-                    return document.getElementsByClassName('search-button')[0].getBoundingClientRect();
+                    var search = document.getElementsByClassName('search-button')[0];
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', elemRectButton.left + elemRectButton.width / 2, elemRectButton.top + elemRectButton.height / 2);
+                if(elemRectButton === 0) {
+                    console.log('360M Exit 2');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRectButton.left + elemRectButton.width / 2, elemRectButton.top + elemRectButton.height / 2);
+                }
             }, 4500);
 
             window.setTimeout(function () {
                 var appRect = page.evaluate(function () {
-                    return document.querySelector('div.lists ul li').getBoundingClientRect();
+                    var search =document.querySelector('div.lists ul li');
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', appRect.left + appRect.width / 2, appRect.top + appRect.height / 2);
-            }, 8500)
+
+                if(appRect === 0) {
+                    console.log('360M Exit 3');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', appRect.left + appRect.width / 2, appRect.top + appRect.height / 2);
+                }
+            }, 10000)
 
             window.setTimeout(function () {
                 //page.render("./images/"+ new Date().getDay()+','+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()+"miaoyi.png");

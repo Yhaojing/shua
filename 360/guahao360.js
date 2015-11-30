@@ -17,7 +17,7 @@ page.onConsoleMessage = function (msg) {
 };
 t = Date.now();
 // 设置代理
-//phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
+phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
 address = "http://zhushou.360.cn/";
 
 page.viewportSize = {width: 1280, height: 800};
@@ -34,24 +34,61 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search = document.getElementById('kwd');
-                    return (search.getBoundingClientRect());
-                })
-                page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
-                page.sendEvent('keypress', appName);
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
+                });
+
+                if(elemRect === 0) {
+                    console.log('360 Exit 1');
+
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
+                    page.sendEvent('keypress', appName);
+                }
             }, 2500);
 
             window.setTimeout(function () {
                 var elemRectButton = page.evaluate(function () {
-                    return document.querySelector('button[title="软件搜索"]').getBoundingClientRect();
-                })
-                page.sendEvent('click', elemRectButton.left + elemRectButton.width / 2, elemRectButton.top + elemRectButton.height / 2);
+                    var search = document.querySelector('button[title="软件搜索"]');
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
+                });
+
+                if(elemRectButton === 0) {
+                    console.log('360 Exit 2');
+
+                    phantom.exit();
+
+                } else {
+                    page.sendEvent('click', elemRectButton.left + elemRectButton.width / 2, elemRectButton.top + elemRectButton.height / 2);
+                }
             }, 4500);
 
             window.setTimeout(function () {
                 var appRect = page.evaluate(function () {
-                    return document.querySelector('a[title="妙医挂号"]').getBoundingClientRect();
-                })
-                page.sendEvent('click', appRect.left + appRect.width / 2, appRect.top + appRect.height / 2);
+                    var search = document.querySelector('a[title="妙医挂号"]');
+                    if(search !==undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
+                });
+                if(appRect === 0) {
+                    console.log('360 Exit 3');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', appRect.left + appRect.width / 2, appRect.top + appRect.height / 2);
+                }
             }, 8500)
 
             window.setTimeout(function () {

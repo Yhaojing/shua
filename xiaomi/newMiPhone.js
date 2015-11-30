@@ -47,31 +47,63 @@ function searchWebPage (address, appName, arg, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search =  document.getElementsByClassName('search-flex9')[1];
-                    return (search.getBoundingClientRect());
+                    if(search !== undefined) {
+                        return (search.getBoundingClientRect());
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
-                page.sendEvent('keypress', appName);
-            }, 3000);
+
+                if(elemRect === 0) {
+                    console.log('miMiao exit 1');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', elemRect.left + elemRect.width / 2, elemRect.top + elemRect.height / 2);
+                    page.sendEvent('keypress', appName);
+                }
+            }, 4000);
 
             window.setTimeout(function () {
                 var rectButton = page.evaluate(function () {
-                    return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
+                    if(document.getElementsByClassName('search-flex2')[1] !== undefined) {
+                        return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
+
+                    } else {
+                        return 0;
+                    }
                 })
-                page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+                if(rectButton === 0) {
+                    console.log('miMiao exit 2');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+
+                }
             }, 6500);
 
             window.setTimeout(function () {
                 //console.log('img[alt="' + arg + '"]')
                 var rectButton = page.evaluate(function (name) {
                     var rect = document.querySelector('img[alt="' + name + '"]').getBoundingClientRect();
-                    return document.querySelector('img[alt="' + name + '"]').getBoundingClientRect();
+                    if(rect !== undefined) {
+                        return document.querySelector('img[alt="' + name + '"]').getBoundingClientRect();
+
+                    } else {
+                        return 0;
+                    }
                 },arg);
-                page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+
+                if(rectButton === 0) {
+                    console.log('miMiao exit 3');
+                    phantom.exit();
+                } else {
+                    page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
+
+                }
             }, 10000);
 
             window.setTimeout(function () {
-
-                //page.render("./images/"+ new Date().getDay()+','+new Date().getHours()+':'+new Date().getMinutes()+':'+new Date().getSeconds()+"1miaoyi.png");
                 console.log('xiaomi妙医加载完');
                 cb(null, status);
             }, 15000)
