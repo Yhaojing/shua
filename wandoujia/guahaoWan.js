@@ -84,9 +84,13 @@ function searchForwandou (address, app, cb) {
                         return 0;
                     } else {
                         var rect =  document.querySelectorAll('a[href="http://www.wandoujia.com/apps/com.healskare.miaoyi"]')[1].getBoundingClientRect();
-                        document.querySelectorAll('a[href="http://www.wandoujia.com/apps/com.healskare.miaoyi"]')[1].target = null;
-                        window.scrollTo(rect.left,rect.top);//滚动到指定位置
-                        return document.querySelectorAll('a[href="http://www.wandoujia.com/apps/com.healskare.miaoyi"]')[1].getBoundingClientRect();
+                        if(rect === undefined) {
+                            return 0;
+                        } else {
+                            document.querySelectorAll('a[href="http://www.wandoujia.com/apps/com.healskare.miaoyi"]')[1].target = null;
+                            window.scrollTo(rect.left,rect.top);//滚动到指定位置
+                            return document.querySelectorAll('a[href="http://www.wandoujia.com/apps/com.healskare.miaoyi"]')[1].getBoundingClientRect();
+                        }
                     }
                 });
 
