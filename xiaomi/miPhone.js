@@ -43,7 +43,7 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search =  document.getElementsByClassName('search-flex9')[1];
-                    if(search !== undefined) {
+                    if(search !== undefined && search !== null) {
                         return (search.getBoundingClientRect());
 
                     } else {
@@ -51,7 +51,7 @@ function searchWebPage (address, appName, cb) {
                     }
                 });
 
-                if(elemRect === 0) {
+                if(elemRect === 0 || elemRect === null) {
                     console.log('mi exit 1');
                     phantom.exit();
                 } else {
@@ -63,14 +63,15 @@ function searchWebPage (address, appName, cb) {
 
             window.setTimeout(function () {
                 var rectButton = page.evaluate(function () {
-                    if(document.getElementsByClassName('search-flex2')[1] !==undefined) {
+                    var search = document.getElementsByClassName('search-flex2')[1];
+                    if(search !==undefined && search !== null) {
                         return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
 
                     } else {
                         return 0;
                     }
                 })
-                if(rectButton === 0) {
+                if(rectButton === 0 || rectButton === null) {
                     console.log('mi exit 2');
                     phantom.exit();
                 } else {
@@ -82,14 +83,14 @@ function searchWebPage (address, appName, cb) {
                 var rect =page.evaluate(function () {
                     var r = document.getElementById('getSearchApp').getBoundingClientRect();
                     window.scrollTo(r.left,r.top);//滚动到妙医挂号那个位置
-                    if(r !==undefined) {
+                    if(r !==undefined && r !== null) {
                         return document.getElementById('getSearchApp').getBoundingClientRect();
                     } else {
                         return 0;
                     }
                 });
 
-                if(rect === 0) {
+                if(rect === 0 || rect === null) {
                     console.log('mi exit 3');
                     phantom.exit();
 
@@ -103,14 +104,14 @@ function searchWebPage (address, appName, cb) {
                 var rectButton = page.evaluate(function () {
                     var rect1 = document.querySelector('img[alt="妙医挂号"]').getBoundingClientRect();
                     //window.scrollTo(rect1.left,rect1.top);//滚动到妙医挂号那个位置
-                    if(rect1 !==undefined) {
+                    if(rect1 !==undefined && rect1 !== null) {
                         return document.querySelector('img[alt="妙医挂号"]').getBoundingClientRect();
 
                     } else {
                         return 0;
                     }
                 });
-                if(rectButton === 0) {
+                if(rectButton === 0 || rectButton=== null  ) {
                     phantom.exit();
                 } else {
                     page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);

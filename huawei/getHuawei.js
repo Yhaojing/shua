@@ -36,7 +36,7 @@ page.onConsoleMessage = function (msg) {
 
 address = 'http://a.vmall.com/search';
 page.viewportSize = {width: 1280, height: 800};
-//phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
+phantom.setProxy(system.args[1], system.args[2], 'manual', '', '');
 
 page.open(address, function (status) {
     if (status !== 'success') {
@@ -46,14 +46,14 @@ page.open(address, function (status) {
         window.setTimeout(function () {
             var rect1 = page.evaluate(function () {
                 var search = document.getElementsByClassName('search-txt')[0];
-                if(search !==undefined) {
+                if(search !==undefined  && search !==null) {
                     return (search.getBoundingClientRect());
 
                 } else {
                     return 0;
                 }
             });
-            if(rect1 === 0 ) {
+            if(rect1 === 0 || rect1 === null) {
                 console.log('huawei Exit 1');
                 phantom.exit();
             } else {
@@ -64,14 +64,15 @@ page.open(address, function (status) {
 
         window.setTimeout(function () {
             var rect2 = page.evaluate(function () {
-                if(document.getElementById("searchBtn") !==undefined) {
+                var search = document.getElementById("searchBtn");
+                if(search !==undefined  && search !==null) {
                     return document.getElementById("searchBtn").getBoundingClientRect();
                 } else {
                     return 0;
                 }
             });
 
-            if(rect2 === 0) {
+            if(rect2 === 0 || rect2 === null) {
                 console.log('huawei Exit 2');
                 phantom.exit();
             } else {
@@ -82,7 +83,7 @@ page.open(address, function (status) {
         window.setTimeout(function () {
             var rect3 = page.evaluate(function () {
                 var location = $('h3:contains("妙医挂号")')[0].getBoundingClientRect();
-                if(location === undefined) {
+                if(location === undefined || location === null) {
                     return 0;
                 } else {
                     window.scrollTo(location.left, location.top);
@@ -90,7 +91,7 @@ page.open(address, function (status) {
                 }
             });
 
-            if(rect3 === 0) {
+            if(rect3 === 0 || rect3 === null) {
                 console.log('huawei Exit 3');
                 phantom.exit();
             } else {

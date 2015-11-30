@@ -83,20 +83,20 @@ var schedule = schedule.scheduleJob(rule, function(){
 
         });
 
-        //豌豆夹分别搜索 挂号和妙医
-        exec('/usr/local/bin/phantomjs /Users/haojing/node/getProxy/wandoujia/wandoujia.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {
-            if(err){   console.log('get weather api error:'+stderr);
-            } else {
-                console.log(stdout);//stdout标准输出
-            }
-        })
-
-        exec('/usr/local/bin/phantomjs /Users/haojing/node/getProxy/wandoujia/guahaoWan.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {
-            if(err){   console.log('get weather api error:'+stderr);
-            } else {
-                console.log(stdout);//stdout标准输出
-            }
-        })
+        ////豌豆夹分别搜索 挂号和妙医
+        //exec('/usr/local/bin/phantomjs /Users/haojing/node/getProxy/wandoujia/wandoujia.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {
+        //    if(err){   console.log('get weather api error:'+stderr);
+        //    } else {
+        //        console.log(stdout);//stdout标准输出
+        //    }
+        //})
+        //
+        //exec('/usr/local/bin/phantomjs /Users/haojing/node/getProxy/wandoujia/guahaoWan.js ' + proxyR.proxyIp + ' ' + proxyR.proxyPort, function(err, stdout,stderr) {
+        //    if(err){   console.log('get weather api error:'+stderr);
+        //    } else {
+        //        console.log(stdout);//stdout标准输出
+        //    }
+        //})
     })
 
 });

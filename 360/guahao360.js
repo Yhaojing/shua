@@ -34,7 +34,7 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search = document.getElementById('kwd');
-                    if(search !==undefined) {
+                    if(search !==undefined && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
@@ -42,7 +42,7 @@ function searchWebPage (address, appName, cb) {
                     }
                 });
 
-                if(elemRect === 0) {
+                if(elemRect === 0 || elemRect === null)  {
                     console.log('360 Exit 1');
 
                     phantom.exit();
@@ -55,7 +55,7 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRectButton = page.evaluate(function () {
                     var search = document.querySelector('button[title="软件搜索"]');
-                    if(search !==undefined) {
+                    if(search !==undefined  && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
@@ -63,7 +63,7 @@ function searchWebPage (address, appName, cb) {
                     }
                 });
 
-                if(elemRectButton === 0) {
+                if(elemRectButton === 0 || elemRectButton === null) {
                     console.log('360 Exit 2');
 
                     phantom.exit();
@@ -76,14 +76,14 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var appRect = page.evaluate(function () {
                     var search = document.querySelector('a[title="妙医挂号"]');
-                    if(search !==undefined) {
+                    if(search !==undefined  && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
                         return 0;
                     }
                 });
-                if(appRect === 0) {
+                if(appRect === 0 || appRect === null) {
                     console.log('360 Exit 3');
                     phantom.exit();
                 } else {

@@ -46,7 +46,7 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search = document.getElementById('q');
-                    if(search !==undefined) {
+                    if(search !==undefined  && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
@@ -54,7 +54,7 @@ function searchWebPage (address, appName, cb) {
                     }
                 })
 
-                if(elemRect === 0) {
+                if(elemRect === 0 || elemRect === null) {
                     console.log('360M Exit 1');
                     phantom.exit();
                 } else {
@@ -66,14 +66,14 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var elemRectButton = page.evaluate(function () {
                     var search = document.getElementsByClassName('search-button')[0];
-                    if(search !==undefined) {
+                    if(search !==undefined  && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
                         return 0;
                     }
                 })
-                if(elemRectButton === 0) {
+                if(elemRectButton === 0 || elemRectButton === null) {
                     console.log('360M Exit 2');
                     phantom.exit();
                 } else {
@@ -84,7 +84,7 @@ function searchWebPage (address, appName, cb) {
             window.setTimeout(function () {
                 var appRect = page.evaluate(function () {
                     var search =document.querySelector('div.lists ul li');
-                    if(search !==undefined) {
+                    if(search !==undefined  && search !==null) {
                         return (search.getBoundingClientRect());
 
                     } else {
@@ -92,7 +92,7 @@ function searchWebPage (address, appName, cb) {
                     }
                 })
 
-                if(appRect === 0) {
+                if(appRect === 0 || appRect === null) {
                     console.log('360M Exit 3');
                     phantom.exit();
                 } else {

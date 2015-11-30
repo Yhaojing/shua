@@ -47,15 +47,15 @@ function searchWebPage (address, appName, arg, cb) {
             window.setTimeout(function () {
                 var elemRect = page.evaluate(function () {
                     var search =  document.getElementsByClassName('search-flex9')[1];
-                    if(search !== undefined) {
+                    if(search !== undefined && search !==0) {
                         return (search.getBoundingClientRect());
 
                     } else {
                         return 0;
                     }
-                })
+                });
 
-                if(elemRect === 0) {
+                if(elemRect === 0 || elemRect === null) {
                     console.log('miMiao exit 1');
                     phantom.exit();
                 } else {
@@ -66,14 +66,15 @@ function searchWebPage (address, appName, arg, cb) {
 
             window.setTimeout(function () {
                 var rectButton = page.evaluate(function () {
-                    if(document.getElementsByClassName('search-flex2')[1] !== undefined) {
+                    var search = document.getElementsByClassName('search-flex2')[1]
+                    if( search!== undefined && search !==null) {
                         return document.getElementsByClassName('search-flex2')[1].getBoundingClientRect();
 
                     } else {
                         return 0;
                     }
                 })
-                if(rectButton === 0) {
+                if(rectButton === 0 || rectButton === null) {
                     console.log('miMiao exit 2');
                     phantom.exit();
                 } else {
@@ -86,7 +87,7 @@ function searchWebPage (address, appName, arg, cb) {
                 //console.log('img[alt="' + arg + '"]')
                 var rectButton = page.evaluate(function (name) {
                     var rect = document.querySelector('img[alt="' + name + '"]').getBoundingClientRect();
-                    if(rect !== undefined) {
+                    if(rect !== undefined && rect !== null) {
                         return document.querySelector('img[alt="' + name + '"]').getBoundingClientRect();
 
                     } else {
@@ -94,8 +95,10 @@ function searchWebPage (address, appName, arg, cb) {
                     }
                 },arg);
 
-                if(rectButton === 0) {
+                if(rectButton === 0 || rectButton === null) {
                     console.log('miMiao exit 3');
+                    phantom.exit();
+                } else if(rectButton.left  ==null) {
                     phantom.exit();
                 } else {
                     page.sendEvent('click', rectButton.left + rectButton.width/2, rectButton.top + rectButton.height/2);
